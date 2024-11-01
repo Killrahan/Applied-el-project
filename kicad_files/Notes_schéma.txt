@@ -1,0 +1,36 @@
+LDAC tied to low to have VOUT update at the rising edge of the CS pin. 
+
+Vout in [0, Vdd]
+
+SPI1 pour les DACs
+
+SPI2 pour les potentiomètre digitaux.
+
+Circuit avec le potentiomètre: https://electronics.stackexchange.com/questions/605027/potentiometer-adc-noise-varies-based-on-position-of-wiper
+
+Pin:
+	- PA1 : SPI1_SCK (spi pour les dacs)
+	- PA2 : SPI1_MOSI (spi pour les dacs)
+	- PA3 : ADC_IN3 (lecture du potentiomètre)
+	- PA13: SWDIO (pour programmer le stm32)
+	- PA14: SWCLK (pour programmer le stm32)
+	- PF2 : NRST (pour reset le mcu)
+	- PA9 : USART1_TX (pour programmer le stm32)
+	- PA10: USART1_RX (pour programmer le stm32)
+	- PA4 : I/O (pour le bouton avec un circuit pull-down)
+
+Design du PCB:
+	- Keep the DAC and op-amp close to minimize noise.
+	- Place decoupling capacitors as close as possible to power pins.
+	- Keep SPI traces short and direct.
+	- Avoid crossing analog and digital signals to reduce interference.
+	- Use a solid ground plane to minimize ground loops and noise.
+	- Make power traces wider to handle current and reduce voltage drop.
+
+Code: 
+	- Sine Wave: Use a lookup table with pre-calculated values.
+	- Square Wave: Alternate between maximum and minimum DAC values.
+	- Triangle Wave: Increment and decrement DAC values linearly.
+	- Use 16-bit data frames as the MCP4901 expects 16 bits.
+	- Set up the SPI peripheral to send data without delays.
+	- Configure SPI1 in Mode 0 (CPOL = 0, CPHA = 0).
