@@ -8,6 +8,11 @@ SPI2 pour les potentiomètre digitaux.
 
 Circuit avec le potentiomètre: https://electronics.stackexchange.com/questions/605027/potentiometer-adc-noise-varies-based-on-position-of-wiper
 
+Circuit en sortie des dacs: https://electronics.stackexchange.com/questions/91230/op-amp-gain-less-than-1
+Pourquoi pas utiliser les interrupteurs CMOS pour afficher l'amplitude? Une led 25%, deux 50%, trois 75%, etc.
+
+Faut que le MCP4131 soit un de 100k
+
 Pin:
 	- PA1 : SPI1_SCK (spi pour les dacs)
 	- PA2 : SPI1_MOSI (spi pour les dacs)
@@ -17,7 +22,16 @@ Pin:
 	- PF2 : NRST (pour reset le mcu)
 	- PA9 : USART1_TX (pour programmer le stm32)
 	- PA10: USART1_RX (pour programmer le stm32)
-	- PA4 : I/O (pour le bouton avec un circuit pull-down)
+	- PA4 : Input (pour le bouton avec un circuit pull-down)
+	- PB0 : Output (pour contrôler le switch CMOS CD4066)
+	- PB1 : Output (pour contrôler le switch CMOS CD4066)
+	- PB2 : Output (pour contrôler le switch CMOS CD4066)
+	- PB3 : Output (pour contrôler le switch CMOS CD4066)
+	- PB4 : Output (Chip select pour le dac 1)
+	- PB5 : Output (Chip select pour le dac 2)
+	- PB7 : SPI2_MOSI (spi pour le pot. digital)
+	- PA5 : Output (chip select pour le pot. 1)
+	- PA6 : Output (chip select pour le pot. 2)
 
 Design du PCB:
 	- Keep the DAC and op-amp close to minimize noise.
