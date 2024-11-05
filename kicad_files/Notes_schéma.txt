@@ -9,6 +9,7 @@ SPI2 pour les potentiomètre digitaux.
 Circuit avec le potentiomètre: https://electronics.stackexchange.com/questions/605027/potentiometer-adc-noise-varies-based-on-position-of-wiper
 
 Circuit en sortie des dacs: https://electronics.stackexchange.com/questions/91230/op-amp-gain-less-than-1
+
 Pourquoi pas utiliser les interrupteurs CMOS pour afficher l'amplitude? Une led 25%, deux 50%, trois 75%, etc.
 
 Faut que le MCP4131 soit un de 100k
