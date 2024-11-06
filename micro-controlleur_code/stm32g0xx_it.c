@@ -55,8 +55,8 @@ void DAC_SetValue(uint8_t value);
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern TIM_HandleTypeDef htim14;
 extern uint8_t sine_table[TABLE_SIZE];
+extern TIM_HandleTypeDef htim14;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -133,17 +133,6 @@ void SysTick_Handler(void)
 
   /* USER CODE END SysTick_IRQn 1 */
 }
-
-/******************************************************************************/
-/* STM32G0xx Peripheral Interrupt Handlers                                    */
-/* Add here the Interrupt Handlers for the used peripherals.                  */
-/* For the available peripheral interrupt handler names,                      */
-/* please refer to the startup file (startup_stm32g0xx.s).                    */
-/******************************************************************************/
-
-/**
-  * @brief This function handles TIM14 global interrupt.
-  */
 void TIM14_IRQHandler(void)
 {
 
@@ -160,6 +149,12 @@ void TIM14_IRQHandler(void)
 
   /* USER CODE END TIM14_IRQn 1 */
 }
+/******************************************************************************/
+/* STM32G0xx Peripheral Interrupt Handlers                                    */
+/* Add here the Interrupt Handlers for the used peripherals.                  */
+/* For the available peripheral interrupt handler names,                      */
+/* please refer to the startup file (startup_stm32g0xx.s).                    */
+/******************************************************************************/
 
 /* USER CODE BEGIN 1 */
 
