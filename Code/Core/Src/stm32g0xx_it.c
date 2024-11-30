@@ -168,18 +168,33 @@ void TIM14_IRQHandler(void)
   /* USER CODE BEGIN TIM14_IRQn 0 */
 	  __HAL_TIM_CLEAR_IT(&htim14,TIM_IT_UPDATE);
 
+      static bool square_high = true; // Toggle flag for square wave
+
       // Select the current waveform
       switch(current_waveform)
       {
           case WAVEFORM_SINE:
               DAC_SetValue(sine_table[dac_index]);
               break;
+
           case WAVEFORM_SQUARE:
-              DAC_SetValue(square_table[dac_index]);
+
+        	  // DAC_SetValue(square_table[dac_index]);
+
+              // Directly toggle between high and low for sharp transitions
+              if(square_high)
+                  DAC_SetValue(255); // High level
+              else
+                  DAC_SetValue(0); // Low level
+
+              square_high = !square_high; // Toggle flag
+
               break;
+
           case WAVEFORM_TRIANGLE:
               DAC_SetValue(triangle_table[dac_index]);
               break;
+
           default:
         	  // Sine by default
         	  DAC_SetValue(sine_table[dac_index]);
@@ -187,14 +202,9 @@ void TIM14_IRQHandler(void)
       }
 
 	  if(dac_index < TABLE_SIZE - 1)
-	  {
 	  	dac_index++;
-	  }
-
 	  else
-	  {
 	  	dac_index = 0;
-	  }
 
   /* USER CODE END TIM14_IRQn 0 */
   HAL_TIM_IRQHandler(&htim14);

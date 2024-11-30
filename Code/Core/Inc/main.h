@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -63,19 +63,26 @@ void Error_Handler(void);
 #define T_VCP_TX_GPIO_Port GPIOA
 #define T_VCP_RX_Pin GPIO_PIN_3
 #define T_VCP_RX_GPIO_Port GPIOA
+#define SW1_Pin GPIO_PIN_0
+#define SW1_GPIO_Port GPIOB
 #define T_JTMS_Pin GPIO_PIN_13
 #define T_JTMS_GPIO_Port GPIOA
 #define T_JTCK_Pin GPIO_PIN_14
 #define T_JTCK_GPIO_Port GPIOA
-#define LDAC_Pin GPIO_PIN_4
-#define LDAC_GPIO_Port GPIOB
+#define SW2_Pin GPIO_PIN_3
+#define SW2_GPIO_Port GPIOB
+#define SW4_Pin GPIO_PIN_4
+#define SW4_GPIO_Port GPIOB
+#define SW3_Pin GPIO_PIN_8
+#define SW3_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 #define MCP4901_BUFFER    (1 << 14)
 #define MCP4901_GAIN2X    (1 << 13)
 #define MCP4901_ACTIVE    (1 << 12)
 #define PI 3.14159265
-#define TABLE_SIZE 20	// Number of points sent to the DAC
+#define TABLE_SIZE 32	// Number of points sent to the DAC
+#define AUTO_POT_AJUST 1 // Enable or disable the auto ajust of the potentiometer based on TIM14
 
 typedef enum {
     WAVEFORM_SINE,
