@@ -52,10 +52,10 @@ uint8_t triangle_table[TABLE_SIZE];
 
 volatile WaveformType current_waveform = WAVEFORM_SINE;
 
-volatile bool activate_cap1_state = false; // Capacitor 1
-volatile bool activate_cap2_state = true;  // Capacitor 2
-volatile bool activate_cap3_state = false; // Capacitor 3
-volatile bool activate_cap4_state = false; // Capacitor 4
+volatile bool activate_cap1_state; // Capacitor 1 -> 10uF
+volatile bool activate_cap2_state; // Capacitor 2 -> 1uF
+volatile bool activate_cap3_state; // Capacitor 3 -> 100nF
+volatile bool activate_cap4_state; // Capacitor 4 -> 10nF
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -80,12 +80,12 @@ void adjust_pot_based_on_TIM14(void);
 /* USER CODE BEGIN 0 */
 void GenerateSineTable() {
     for(int i = 0; i < TABLE_SIZE; i++)
-        sine_table[i] = (uint8_t)((sin(2 * PI * i / TABLE_SIZE) + 1) * 127.5); // Scale to 0-255
+        sine_table[i] = (uint8_t)((sin(2 * PI * i / TABLE_SIZE) + 1) * (127.5/2)); // Scale to 0-255
 }
 
 void GenerateSquareTable() {
     for(int i = 0; i < TABLE_SIZE; i++)
-        square_table[i] = (i < (TABLE_SIZE / 2)) ? 255 : 0;
+        square_table[i] = (i < (TABLE_SIZE / 2)) ? 128 : 0;
 }
 
 void GenerateTriangleTable() {
@@ -245,8 +245,8 @@ void adjust_pot_based_on_TIM14(void) {
 
             // On doit remettre l'états des capa vu qu'elles sont reset quand current_waveform == WAVEFORM_SQUARE
             activate_cap1_state = false;
-            activate_cap2_state = true;
-            activate_cap3_state = false;
+            activate_cap2_state = false;
+            activate_cap3_state = true;
             activate_cap4_state = false;
 
             set_capacitors(activate_cap1_state, activate_cap2_state, activate_cap3_state, activate_cap4_state);
@@ -255,17 +255,17 @@ void adjust_pot_based_on_TIM14(void) {
 
         case WAVEFORM_TRIANGLE:
             if (current_ARR <= 400)
-                pot_value = 60;
-            else if (current_ARR <= 800)
-                pot_value = 40;
-            else if (current_ARR <= 1200)
-                pot_value = 20;
-            else
                 pot_value = 0;
+            else if (current_ARR <= 800)
+                pot_value = 10;
+            else if (current_ARR <= 1200)
+                pot_value = 10;
+            else
+                pot_value = 10;
 
             activate_cap1_state = false;
-            activate_cap2_state = true;
-            activate_cap3_state = false;
+            activate_cap2_state = false;
+            activate_cap3_state = true;
             activate_cap4_state = false;
 
             set_capacitors(activate_cap1_state, activate_cap2_state, activate_cap3_state, activate_cap4_state);
@@ -319,8 +319,8 @@ int main(void)
   // Config initiale des capa. (et des variables globales)
   //-----------------------------
   activate_cap1_state = false;    // sur la breadboard -> 10nF
-  activate_cap2_state = true;     // 100nF
-  activate_cap3_state = false;
+  activate_cap2_state = false;     // 100nF
+  activate_cap3_state = true;
   activate_cap4_state = false;
 
   // Set capacitors (without changing the potentiometer)
@@ -555,11 +555,11 @@ void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == GPIO_PIN_6)
 		if(TIM14 -> ARR < 2000)
-			TIM14 -> ARR += 200; //adjustable, one idea is to divide the frequency band in n slices.
+			TIM14 -> ARR += 50; //adjustable, one idea is to divide the frequency band in n slices.
 
 	if(GPIO_Pin == GPIO_PIN_7)
 		if(TIM14 -> ARR > 200)
-			TIM14 -> ARR -= 200;
+			TIM14 -> ARR -= 50;
 
 	if(GPIO_Pin == GPIO_PIN_12)
 		CycleWaveform();

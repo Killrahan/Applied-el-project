@@ -179,15 +179,18 @@ void TIM14_IRQHandler(void)
 
           case WAVEFORM_SQUARE:
 
-        	  // DAC_SetValue(square_table[dac_index]);
+        	  DAC_SetValue(square_table[dac_index]);
 
               // Directly toggle between high and low for sharp transitions
+        	  /*
               if(square_high)
                   DAC_SetValue(255); // High level
               else
                   DAC_SetValue(0); // Low level
 
               square_high = !square_high; // Toggle flag
+
+			  */
 
               break;
 
